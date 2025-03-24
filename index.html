@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<style type="text/css">
+		.duck {
+			width: 100px;
+			height: 100px;
+			
+			position: absolute;
+			background-size: 100% 100%;
+		}
+	</style>
+</head>
+<body>
+	<button class="btn" style="position: absolute; left: 700px; background: green;">начать игру</button>
+	<h1 style="position: absolute; left: 700px">score:<span class="score">0</span></h1>
+	<div >
+		<img src="wave2.png" style="width: 1510px; position: absolute; top: 350px;">
+		<img src="wave1.png" style="width: 1510px; position: absolute; top: 450px;">
+		<img src="1s.png" style="height: 700px; position: absolute;">
+		<img src="2s.png" style="height: 700px; position: absolute; left: 1380px;">
+
+	</div>
+
+
+	<script type="text/javascript">
+		let y = [300,400]
+		let btn = document.querySelector(".btn")
+		let score = document.querySelector(".score")
+		let types = ['good', 'bad']
+		let point = 0
+
+
+		let createDuck = function() {
+			let duck = document.createElement("div")
+			document.body.appendChild(duck)
+			duck.classList.add('duck')
+			randomX = Math.round(Math.random()*1000 + 200)
+			duck.style.left = randomX + "px"
+			randomY = Math.round(Math.random()*1)
+			duck.style.top = y[randomY] + 'px'
+			typeIndex = Math.round(Math.random())
+			duck.myType = types[typeIndex]
+
+			if(duck.myType == 'good'){
+				duck.style.backgroundImage = 'url(1.png)'
+			}else{
+				duck.style.backgroundImage = 'url(2.png)'
+			}
+			duck.onclick = function() {
+				duck.style.display = "none"
+				
+				//если хороший то добавляет +2 если плохой то -1
+				if (duck.myType == 'good') {
+					point = point + 2
+					score.innerHTML = point
+				}else{
+					point = point - 1
+					score.innerHTML = point
+				}
+			}
+
+			
+		}
+
+		btn.onclick = function() {
+		let	interval = setInterval(createDuck, 500)
+			setTimeout(endGame, 10000)	
+		}
+		let endGame = function() {
+			if(point >= 10){
+				alert("you win")
+			}else{
+				alert("you lose")
+			}
+			clearInterval(interval)
+		}
+	</script>
+</body>
+</html>
